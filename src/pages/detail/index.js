@@ -52,7 +52,7 @@ export default function Detail() {
                 <div className="pt-md-50 pt-30">
                   <div className="">
                     <label
-                      for="ID"
+                      htmlFor="ID"
                       className="form-label text-lg fw-medium color-palette-1 mb-10"
                     >
                       Verify ID
@@ -74,7 +74,7 @@ export default function Detail() {
                   <div className="row justify-content-between">
                     <label
                       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                      for="topup1"
+                      htmlFor="topup1"
                     >
                       <input
                         className="d-none"
@@ -101,9 +101,9 @@ export default function Detail() {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -114,7 +114,7 @@ export default function Detail() {
                     </label>
                     <label
                       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                      for="topup2"
+                      htmlFor="topup2"
                     >
                       <input
                         className="d-none"
@@ -141,9 +141,9 @@ export default function Detail() {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -154,7 +154,7 @@ export default function Detail() {
                     </label>
                     <label
                       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                      for="topup3"
+                      htmlFor="topup3"
                     >
                       <input
                         className="d-none"
@@ -181,9 +181,9 @@ export default function Detail() {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -194,7 +194,7 @@ export default function Detail() {
                     </label>
                     <label
                       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                      for="topup4"
+                      htmlFor="topup4"
                     >
                       <input
                         className="d-none"
@@ -221,9 +221,9 @@ export default function Detail() {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -234,7 +234,7 @@ export default function Detail() {
                     </label>
                     <label
                       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                      for="topup5"
+                      htmlFor="topup5"
                     >
                       <input
                         className="d-none"
@@ -261,9 +261,9 @@ export default function Detail() {
                             <path
                               d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                               stroke="#00BAFF"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                           </svg>
                         </div>
@@ -283,7 +283,7 @@ export default function Detail() {
                     <div className="row justify-content-between">
                       <label
                         className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                        for="transfer"
+                        htmlFor="transfer"
                       >
                         <input
                           className="d-none"
@@ -309,9 +309,9 @@ export default function Detail() {
                               <path
                                 d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                                 stroke="#00BAFF"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </div>
@@ -322,7 +322,7 @@ export default function Detail() {
                       </label>
                       <label
                         className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
-                        for="visa"
+                        htmlFor="visa"
                       >
                         <input
                           className="d-none"
@@ -348,9 +348,9 @@ export default function Detail() {
                               <path
                                 d="M5.83301 10L8.46459 12.5L14.1663 7.5"
                                 stroke="#00BAFF"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                             </svg>
                           </div>
@@ -365,7 +365,7 @@ export default function Detail() {
                 </div>
                 <div className="pb-50">
                   <label
-                    for="bankAccount"
+                    htmlFor="bankAccount"
                     className="form-label text-lg fw-medium color-palette-1 mb-10"
                   >
                     Bank Account Name
