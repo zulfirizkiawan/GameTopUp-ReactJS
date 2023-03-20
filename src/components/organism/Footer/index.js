@@ -1,3 +1,4 @@
+import LinkFooterItem from "@/components/atoms/LinkFooterItem";
 import Image from "next/image";
 import React from "react";
 
@@ -26,38 +27,10 @@ export default function Footer() {
                     Company
                   </p>
                   <ul className="list-unstyled">
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        About Us
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Press Release
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Terms of Use
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Privacy & Policy
-                      </a>
-                    </li>
+                    <LinkFooterItem title="About Us" href="" />
+                    <LinkFooterItem title="Press Release" />
+                    <LinkFooterItem title="Terms of Use" />
+                    <LinkFooterItem title="Privacy & Policy" />
                   </ul>
                 </div>
                 <div className="col-md-4 col-6 mb-lg-0 mb-25">
@@ -65,30 +38,9 @@ export default function Footer() {
                     Support
                   </p>
                   <ul className="list-unstyled">
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Refund Policy
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Unlock Rewards
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href=""
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Live Chatting
-                      </a>
-                    </li>
+                    <LinkFooterItem title="Refund Policy" />
+                    <LinkFooterItem title="Unlock Rewards" />
+                    <LinkFooterItem title="Live Chatting" />
                   </ul>
                 </div>
                 <div className="col-md-4 col-12 mt-lg-0 mt-md-0 mt-25">
@@ -96,39 +48,10 @@ export default function Footer() {
                     Connect
                   </p>
                   <ul className="list-unstyled">
-                    <li className="mb-6">
-                      <a
-                        href="mailto: hi@store.gg"
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        hi@store.gg
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href="mailto: team@store.gg"
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        team@store.gg
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href="http://maps.google.com/?q=Pasific 12,
-                                    Jakarta Selatan"
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        Pasific 12, Jakarta Selatan
-                      </a>
-                    </li>
-                    <li className="mb-6">
-                      <a
-                        href="tel: 02111229090"
-                        className="text-lg color-palette-1 text-decoration-none"
-                      >
-                        021 - 1122 - 9090
-                      </a>
-                    </li>
+                    <LinkFooterItem title="TopUp@store.gg" />
+                    <LinkFooterItem title="team@store.gg" />
+                    <LinkFooterItem title="Malang Selatan" />
+                    <LinkFooterItem title="0859777279182" />
                   </ul>
                 </div>
               </div>
