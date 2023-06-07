@@ -60,6 +60,7 @@ export default function EditProfile() {
                     name="email"
                     aria-describedby="email"
                     placeholder="Enter your email address"
+                    disabled
                   />
                 </div>
                 <div className="pt-30">

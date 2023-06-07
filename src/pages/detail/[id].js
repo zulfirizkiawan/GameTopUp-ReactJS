@@ -2,9 +2,31 @@ import TopUpItem from "@/components/organism/TopUpItem";
 import Footer from "@/components/organism/Footer";
 import Navbar from "@/components/organism/Navbar";
 import TopUpForm from "@/components/organism/TopUpForm";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { getDetailFeaturedGame } from "services/player";
 
 export default function Detail() {
+  const { query, isReady } = useRouter();
+  const [dataItem, setDataItem] = useState({
+    gameName: "",
+    category: " ",
+  });
+  const [nominals, setNominals] = useState([]);
+
+  const getDetailGame = useCallback(async (id) => {
+    const data = await getDetailFeaturedGame(id);
+    setDataItem(data);
+    setNominals(data.nominal);
+    console.log("data", data);
+  }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      console.log("ROuter tersedia", query.id);
+      getDetailGame(query.id);
+    }
+  }, [isReady]);
   return (
     <>
       <Navbar />
@@ -20,12 +42,12 @@ export default function Detail() {
           </div>
           <div className="row">
             <div className="col-xl-3 col-lg-4 col-md-5 pb-30 pb-md-0 pe-md-25 text-md-start">
-              <TopUpItem />
+              <TopUpItem data={dataItem} />
             </div>
             <div className="col-xl-9 col-lg-8 col-md-7 ps-md-25">
-              <TopUpItem type="desktop" />
+              <TopUpItem data={dataItem} type="desktop" />
               <hr />
-              <TopUpForm />
+              <TopUpForm nominals={nominals} />
             </div>
           </div>
         </div>

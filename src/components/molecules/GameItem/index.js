@@ -3,18 +3,18 @@ import Link from "next/link";
 import React from "react";
 
 export default function GameItem(props) {
-  const { title, category, thumbnail } = props;
+  const { title, category, thumbnail, id } = props;
   return (
     <div className="featured-game-card position-relative">
-      <Link href="./detail" passHref legacyBehavior>
+      <Link href={`/detail/${id}`} passHref legacyBehavior>
         <a>
           <div className="blur-sharp">
-            <Image
+            <img
               className="thumbnail"
-              src={`/img/${thumbnail}.png`}
+              src={`${thumbnail}`}
               height={270}
               width={205}
-              alt="thumbnail"
+              alt={title}
             />
           </div>
           <div className="cover position-absolute bottom-0 m-32">

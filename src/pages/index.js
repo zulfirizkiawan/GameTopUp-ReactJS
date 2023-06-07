@@ -12,7 +12,7 @@ export default function Home() {
     AOS.init();
   });
   return (
-    <>
+    <div>
       <Navbar />
       <MainBanner />
       <TransactionStep />
@@ -20,6 +20,6 @@ export default function Home() {
       <Reached />
       <Story />
       <Footer />
-    </>
+    </div>
   );
 }

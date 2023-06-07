@@ -1,21 +1,26 @@
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 export default function SignUpPhoto() {
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("/icon/upload.svg");
   return (
     <>
-      <section className="sign-up-photo mx-auto pt-lg-227 pb-lg-227 pt-130 pb-50">
+      <section className="sign-up-photo mx-auto pt-lg-100 pb-lg-100 pt-50 pb-50">
         <div className="container mx-auto">
           <form action="">
-            <div className="form-input d-md-block d-flex flex-column">
+            <div className="form-input d-md-block flex-column">
               <div>
+                <h2 className="text-4xl fw-bold text-center color-palette-1 mb-20">
+                  Akun berhasil terdaftar
+                </h2>
                 <div className="mb-20">
                   <div className="image-upload text-center">
                     <label htmlFor="avatar">
-                      <Image
-                        src="/icon/upload.svg"
-                        width={120}
-                        height={120}
+                      <img
+                        src={imagePreview}
+                        className="img-upload"
                         alt="upload"
                       />
                     </label>
@@ -24,6 +29,13 @@ export default function SignUpPhoto() {
                       type="file"
                       name="avatar"
                       accept="image/png, image/jpeg"
+                      onChange={(event) => {
+                        console.log("first foto", event.target.files);
+                        setImagePreview(
+                          URL.createObjectURL(event.target.files[0])
+                        );
+                        return setImage(event.target.files[0]);
+                      }}
                     />
                   </div>
                 </div>
@@ -33,46 +45,24 @@ export default function SignUpPhoto() {
                 <p className="text-lg text-center color-palette-1 m-0">
                   shayna@anne.com
                 </p>
-                <div className="pt-50 pb-50">
-                  <label
-                    htmlFor="category"
-                    className="form-label text-lg fw-medium color-palette-1 mb-10"
-                  >
-                    Favorite Game
-                  </label>
-                  <select
-                    id="category"
-                    name="category"
-                    className="form-select d-block w-100 rounded-pill text-lg"
-                    aria-label="Favorite Game"
-                  >
-                    <option value="" disabled selected>
-                      Select Category
-                    </option>
-                    <option value="fps">First Person Shoter</option>
-                    <option value="rpg">Role Playing Game</option>
-                    <option value="arcade">Arcade</option>
-                    <option value="sport">Sport</option>
-                  </select>
-                </div>
               </div>
 
-              <div className="button-group d-flex flex-column mx-auto">
-                <a
+              <div className="button-group d-flex flex-column mx-auto pt-50">
+                <button
+                  type="button"
                   className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
-                  href="./sign-up-success"
-                  role="button"
                 >
-                  Create My Account
-                </a>
+                  Upload Image
+                </button>
 
-                <a
-                  className="btn btn-tnc text-lg color-palette-1 text-decoration-underline pt-15"
-                  href="#"
-                  role="button"
-                >
-                  Terms & Conditions
-                </a>
+                <Link href="/" legacyBehavior>
+                  <a
+                    className="btn btn-sign-in fw-medium text-lg color-palette-1 rounded-pill"
+                    role="button"
+                  >
+                    Lewati Upload Gambar
+                  </a>
+                </Link>
               </div>
             </div>
           </form>

@@ -1,18 +1,70 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import cx from "classnames";
+import { setSignUp } from "services/auth";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUpForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const className = {
+    label: cx("form-label text-lg fw-medium color-palette-1 mb-10"),
+  };
+
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    const formData = {
+      name,
+      email,
+      password,
+      password_confirmation: password,
+      phoneNumber,
+    };
+
+    const result = await setSignUp(formData);
+    if (result.ok === false) {
+      toast.error("Mohon periksa data register anda dengan benar", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      toast.success("Selamat akun anda berhasil terdaftar", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      router.push("/sign-up-photo");
+    }
+
+    console.log("result", result);
+  };
+
   return (
-    <>
+    <div>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign Up</h2>
       <p className="text-lg color-palette-1 m-0">
         Daftar dan bergabung dengan kami
       </p>
       <div className="pt-50">
-        <label
-          htmlFor="name"
-          className="form-label text-lg fw-medium color-palette-1 mb-10"
-        >
+        <label htmlFor="name" className={className.label}>
           Full Name
         </label>
         <input
@@ -22,13 +74,12 @@ export default function SignUpForm() {
           name="name"
           aria-describedby="name"
           placeholder="Enter your name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
         />
       </div>
       <div className="pt-30">
-        <label
-          htmlFor="email"
-          className="form-label text-lg fw-medium color-palette-1 mb-10"
-        >
+        <label htmlFor="email" className={className.label}>
           Email Address
         </label>
         <input
@@ -38,13 +89,12 @@ export default function SignUpForm() {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className="pt-30">
-        <label
-          htmlFor="password"
-          className="form-label text-lg fw-medium color-palette-1 mb-10"
-        >
+        <label htmlFor="password" className={className.label}>
           Password
         </label>
         <input
@@ -54,15 +104,32 @@ export default function SignUpForm() {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
+      <div className="pt-30">
+        <label htmlFor="password" className={className.label}>
+          Phone Number
+        </label>
+        <input
+          type="text"
+          className="form-control rounded-pill text-lg"
+          id="phoneNumber"
+          name="phoneNumber"
+          aria-describedby="phoneNumber"
+          placeholder="Your Phone Number"
+          value={phoneNumber}
+          onChange={(event) => setPhoneNumber(event.target.value)}
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
         <a
+          type="button"
           className="btn btn-sign-up fw-medium text-lg text-white rounded-pill mb-16"
-          href="./sign-up-photo"
-          role="button"
+          onClick={onSubmit}
         >
-          Continue
+          Sign Up
         </a>
         <Link href="/sign-in" legacyBehavior>
           <a
@@ -73,6 +140,7 @@ export default function SignUpForm() {
           </a>
         </Link>
       </div>
-    </>
+      <ToastContainer />
+    </div>
   );
 }

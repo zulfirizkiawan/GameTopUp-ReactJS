@@ -1,9 +1,75 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { setLogin } from "services/auth";
+import { useRouter } from "next/router";
+import jwtDecode from "jwt-decode";
+import Cookies from "js-cookie";
 
 export default function SignInForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const router = useRouter();
+
+  const onSubmit = async () => {
+    const formData = {
+      email,
+      password,
+    };
+
+    if (!email || !password) {
+      toast.error("Email dan password wajib diisi !!!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      const result = await setLogin(formData);
+      if (result.ok === false) {
+        toast.error("Mohon periksa email dan password anda dengan benar", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.success("Selamat anda berhasil login", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        console.log("response", result);
+        //token
+
+        const token = result.data.access_token;
+        Cookies.set("token", token, {
+          sameSite: "none",
+          secure: true,
+          expires: 2,
+        });
+
+        router.push("/");
+      }
+    }
+  };
   return (
-    <>
+    <div>
       <h2 className="text-4xl fw-bold color-palette-1 mb-10">Sign In</h2>
       <p className="text-lg color-palette-1 m-0">
         Masuk untuk melakukan proses top up
@@ -22,6 +88,8 @@ export default function SignInForm() {
           name="email"
           aria-describedby="email"
           placeholder="Enter your email address"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </div>
       <div className="pt-30">
@@ -38,25 +106,25 @@ export default function SignInForm() {
           name="password"
           aria-describedby="password"
           placeholder="Your password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
         />
       </div>
       <div className="button-group d-flex flex-column mx-auto pt-50">
         <a
+          type="button"
           className="btn btn-sign-in fw-medium text-lg text-white rounded-pill mb-16"
-          href="../index.html"
-          role="button"
+          onClick={onSubmit}
         >
           Continue to Sign In
         </a>
         <Link href="/sign-up" legacyBehavior>
-          <a
-            className="btn btn-sign-up fw-medium text-lg color-palette-1 rounded-pill"
-            role="button"
-          >
+          <a className="btn btn-sign-up fw-medium text-lg color-palette-1 rounded-pill">
             Sign Up
           </a>
         </Link>
       </div>
-    </>
+      <ToastContainer />
+    </div>
   );
 }

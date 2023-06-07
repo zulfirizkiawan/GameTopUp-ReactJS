@@ -1,7 +1,22 @@
 import GameItem from "@/components/molecules/GameItem";
-import React from "react";
+import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
+import { getFeaturedGame } from "services/player";
 
 export default function FeaturedGame() {
+  const [gameList, setGameList] = useState([]);
+
+  const getGameList = useCallback(async () => {
+    const data = await getFeaturedGame();
+    setGameList(data);
+  }, []);
+
+  useEffect(() => {
+    getGameList();
+  }, [getGameList]);
+
+  useEffect(() => {}, [gameList]);
+
   return (
     <section className="featured-game pt-50 pb-50">
       <div className="container-fluid">
@@ -10,34 +25,20 @@ export default function FeaturedGame() {
           <br /> Games This Year
         </h2>
         <div
-          className="d-flex flex-row flex-lg-wrap overflow-setting justify-content-lg-between gap-lg-3 gap-4"
+          className="d-flex flex-row flex-lg-wrap overflow-setting gap-lg-3 gap-4"
           data-aos="fade-up"
         >
-          <GameItem
-            title="Super Mechs"
-            category="Mobile"
-            thumbnail="Thumbnail-1"
-          />
-          <GameItem
-            title="Call of Duty: Modern"
-            category="Mobile"
-            thumbnail="Thumbnail-2"
-          />
-          <GameItem
-            title="Mobile Legends"
-            category="Mobile"
-            thumbnail="Thumbnail-3"
-          />
-          <GameItem
-            title="Clash of Clans"
-            category="Mobile"
-            thumbnail="Thumbnail-4"
-          />
-          <GameItem
-            title="Valorant"
-            category="Desktop"
-            thumbnail="Thumbnail-5"
-          />
+          {gameList.map((item) => {
+            return (
+              <GameItem
+                key={item.id}
+                title={item.gameName}
+                category={item.category}
+                thumbnail={item.gamePhotoPath}
+                id={item.id}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
