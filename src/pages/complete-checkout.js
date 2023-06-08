@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function CompleteCheckout() {
@@ -24,13 +25,11 @@ export default function CompleteCheckout() {
             </p>
           </div>
           <div className="button-group d-flex flex-column mx-auto">
-            <a
-              className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
-              href="member"
-              role="button"
-            >
-              My Dashboard
-            </a>
+            <Link href="/member" legacyBehavior>
+              <a className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16">
+                My Dashboard
+              </a>
+            </Link>
             <a
               className="btn btn-whatsapp fw-medium text-lg color-palette-1 rounded-pill"
               href="#"

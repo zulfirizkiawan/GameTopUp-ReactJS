@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function SignUpSuccess() {
@@ -25,13 +26,11 @@ export default function SignUpSuccess() {
             </p>
           </div>
           <div className="button-group d-flex flex-column mx-auto">
-            <a
-              className="btn btn-top-up fw-medium text-lg text-white rounded-pill"
-              href="./"
-              role="button"
-            >
-              Top Up
-            </a>
+            <Link href="/" legacyBehavior>
+              <a className="btn btn-top-up fw-medium text-lg text-white rounded-pill">
+                Top Up
+              </a>
+            </Link>
           </div>
         </div>
       </section>

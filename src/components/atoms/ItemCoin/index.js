@@ -1,10 +1,11 @@
 import { NumericFormat } from "react-number-format";
 
-const ItemCoin = ({ totalCoin, title, price, id }) => {
+const ItemCoin = ({ totalCoin, title, price, id, onChange }) => {
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
       htmlFor={id}
+      onChange={onChange}
     >
       <input className="d-none" type="radio" id={id} name="topup" value={id} />
       <div className="detail-card">

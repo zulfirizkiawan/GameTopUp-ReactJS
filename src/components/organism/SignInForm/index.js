@@ -1,11 +1,9 @@
-import Link from "next/link";
-import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { setLogin } from "services/auth";
-import { useRouter } from "next/router";
-import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { setLogin } from "services/auth";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
@@ -54,16 +52,22 @@ export default function SignInForm() {
           progress: undefined,
           theme: "light",
         });
-        console.log("response", result);
-        //token
 
+        //token
         const token = result.data.access_token;
+        const user = result.data.user;
         Cookies.set("token", token, {
           sameSite: "none",
           secure: true,
           expires: 2,
         });
 
+        Cookies.set("user", JSON.stringify(user), {
+          // Mengubah objek menjadi string
+          sameSite: "none",
+          secure: true,
+          expires: 2,
+        });
         router.push("/");
       }
     }
@@ -124,7 +128,6 @@ export default function SignInForm() {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 }

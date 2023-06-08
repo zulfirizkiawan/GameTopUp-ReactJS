@@ -1,10 +1,10 @@
-import Link from "next/link";
-import React, { useState } from "react";
 import cx from "classnames";
-import { setSignUp } from "services/auth";
+import Cookies from "js-cookie";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { setSignUp } from "services/auth";
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
@@ -28,9 +28,8 @@ export default function SignUpForm() {
       phoneNumber,
     };
 
-    const result = await setSignUp(formData);
-    if (result.ok === false) {
-      toast.error("Mohon periksa data register anda dengan benar", {
+    if (!email || !password) {
+      toast.error("Email dan password wajib diisi !!!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -41,20 +40,48 @@ export default function SignUpForm() {
         theme: "light",
       });
     } else {
-      toast.success("Selamat akun anda berhasil terdaftar", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      router.push("/sign-up-photo");
-    }
+      const result = await setSignUp(formData);
 
-    console.log("result", result);
+      if (result.ok === false) {
+        toast.error("Mohon periksa data register anda dengan benar", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.success("Selamat akun anda berhasil terdaftar", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        //token
+        const token = result.access_token;
+        const user = result.user;
+        Cookies.set("token", token, {
+          sameSite: "none",
+          secure: true,
+          expires: 2,
+        });
+
+        Cookies.set("user", JSON.stringify(user), {
+          // Mengubah objek menjadi string
+          sameSite: "none",
+          secure: true,
+          expires: 2,
+        });
+        router.push("/sign-up-success");
+      }
+    }
   };
 
   return (
@@ -140,7 +167,6 @@ export default function SignUpForm() {
           </a>
         </Link>
       </div>
-      <ToastContainer />
     </div>
   );
 }

@@ -1,10 +1,75 @@
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { setUploadPhoto } from "services/auth";
 
 export default function SignUpPhoto() {
-  const [image, setImage] = useState(null);
+  const [images, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("/icon/upload.svg");
+  const [user, setUser] = useState({
+    profilePhotoPath: "",
+  });
+
+  const handleFileChange = (event) => {
+    console.log("first foto", event.target.files[0]);
+    setImagePreview(URL.createObjectURL(event.target.files[0]));
+    return setImage(event.target.files[0]);
+  };
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      const userString = Cookies.get("user");
+      const users = JSON.parse(userString);
+      setUser(users);
+    }
+  }, []);
+
+  const router = useRouter();
+
+  const onSaveImage = async (event) => {
+    event.preventDefault();
+
+    console.log("data image", images);
+    const formData = new FormData();
+
+    formData.append("image", event.target.files[0]);
+    console.log("data image 2", formData);
+
+    // const token = Cookies.get("token");
+
+    // try {
+    //   const response = await fetch(
+    //     `https://topupgame.kazuhaproject.com/api/user/photo`,
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "multipart/form-data",
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //       body: data,
+    //     }
+    //   );
+
+    //   if (response.ok) {
+    //     const responseData = await response.json();
+    //     console.log("responseData", responseData);
+    //     return responseData;
+    //   } else {
+    //     console.log("response", response);
+    //     return response;
+    //   }
+    // } catch (error) {
+    //   console.log("error", error);
+    //   throw error;
+    // }
+
+    // router.push("/");
+  };
+
   return (
     <>
       <section className="sign-up-photo mx-auto pt-lg-100 pb-lg-100 pt-50 pb-50">
@@ -29,21 +94,15 @@ export default function SignUpPhoto() {
                       type="file"
                       name="avatar"
                       accept="image/png, image/jpeg"
-                      onChange={(event) => {
-                        console.log("first foto", event.target.files);
-                        setImagePreview(
-                          URL.createObjectURL(event.target.files[0])
-                        );
-                        return setImage(event.target.files[0]);
-                      }}
+                      onChange={handleFileChange}
                     />
                   </div>
                 </div>
                 <h2 className="fw-bold text-xl text-center color-palette-1 m-0">
-                  Shayna Anne
+                  {user.name}
                 </h2>
                 <p className="text-lg text-center color-palette-1 m-0">
-                  shayna@anne.com
+                  {user.email}
                 </p>
               </div>
 
@@ -51,6 +110,7 @@ export default function SignUpPhoto() {
                 <button
                   type="button"
                   className="btn btn-create fw-medium text-lg text-white rounded-pill mb-16"
+                  onClick={(event) => onSaveImage(event)}
                 >
                   Upload Image
                 </button>

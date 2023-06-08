@@ -46,3 +46,26 @@ export async function setLogin(formData) {
     throw error;
   }
 }
+
+export async function setUploadPhoto(data, dataToken) {
+  try {
+    const response = await fetch(`${URL}/api/user/photo`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        Authorization: dataToken,
+      },
+      body: data,
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData;
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
+  }
+}

@@ -1,16 +1,36 @@
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import propYypes from "prop-types";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 export default function Auth(props) {
-  const { isLogin } = props;
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({
+    profilePhotoPath: "",
+  });
+
+  const router = useRouter();
 
   useEffect(() => {
     const token = Cookies.get("token");
-    console.log("token", token);
+
+    if (token) {
+      setIsLogin(true);
+      const userString = Cookies.get("user");
+      const users = JSON.parse(userString);
+
+      console.log("user", users);
+      setUser(users);
+    }
   }, []);
 
+  const onLogout = () => {
+    Cookies.remove("token");
+    Cookies.remove("user");
+    router.push("/");
+    setIsLogin(false);
+  };
   if (isLogin) {
     return (
       <li className="nav-item my-auto dropdown d-flex">
@@ -24,13 +44,24 @@ export default function Auth(props) {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <img
-              src="/img/avatar-1.png"
-              className="rounded-circle"
-              width="40"
-              height="40"
-              alt=""
-            />
+            {user.profilePhotoPath ===
+            "https://topupgame.kazuhaproject.com/storage/" ? (
+              <img
+                src="/img/avatar-1.png" // Menampilkan gambar default dari folder "public"
+                className="rounded-circle"
+                width="40"
+                height="40"
+                alt=""
+              />
+            ) : (
+              <img
+                src={user.profilePhotoPath}
+                className="rounded-circle"
+                width="40"
+                height="40"
+                alt=""
+              />
+            )}
           </a>
 
           <ul
@@ -59,7 +90,11 @@ export default function Auth(props) {
               </Link>
             </li>
             <li>
-              <a className="dropdown-item text-lg color-palette-2" href="#">
+              <a
+                className="dropdown-item text-lg color-palette-2"
+                href="#"
+                onClick={onLogout}
+              >
                 Log Out
               </a>
             </li>

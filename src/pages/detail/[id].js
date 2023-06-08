@@ -18,12 +18,13 @@ export default function Detail() {
     const data = await getDetailFeaturedGame(id);
     setDataItem(data);
     setNominals(data.nominal);
+    localStorage.setItem("data-item", JSON.stringify(data));
     console.log("data", data);
   }, []);
 
   useEffect(() => {
     if (isReady) {
-      console.log("ROuter tersedia", query.id);
+      console.log("Router tersedia", query.id);
       getDetailGame(query.id);
     }
   }, [isReady]);

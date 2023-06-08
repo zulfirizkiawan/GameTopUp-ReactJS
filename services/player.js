@@ -39,3 +39,33 @@ export async function getBank() {
     throw error;
   }
 }
+
+export async function setCO(data, dataToken) {
+  try {
+    const response = await fetch(
+      "https://topupgame.kazuhaproject.com/api/checkouttransaction",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${dataToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+
+    if (response.ok) {
+      const responseData = await response.json();
+      // Lakukan sesuatu dengan responseData jika perlu
+      // console.log("responseData", responseData);
+      return responseData;
+    } else {
+      // Tangani respons gagal di sini
+      return response;
+    }
+  } catch (error) {
+    console.log("error", error);
+    throw error;
+  }
+}

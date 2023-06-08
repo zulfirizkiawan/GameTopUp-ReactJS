@@ -1,10 +1,11 @@
 import React from "react";
 
-const PaymentItem = ({ id, namaBank, namaRek, noRek }) => {
+const PaymentItem = ({ id, namaBank, namaRek, noRek, onChange }) => {
   return (
     <label
       className="col-lg-4 col-sm-6 ps-md-15 pe-md-15 pt-md-15 pb-md-15 pt-10 pb-10"
       htmlFor={"transfer" + id}
+      onChange={onChange}
     >
       <input
         className="d-none"

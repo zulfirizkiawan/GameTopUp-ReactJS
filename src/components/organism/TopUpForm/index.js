@@ -1,11 +1,17 @@
 import ItemCoin from "@/components/atoms/ItemCoin";
 import PaymentItem from "@/components/atoms/PaymentItem";
-import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getBank } from "services/player";
 
 export default function TopUpForm(props) {
   const { nominals } = props;
   const [bankList, setBankList] = useState([]);
+  const [verifyID, setVerifyID] = useState("");
+
+  const [nominalItems, setNominalItems] = useState({});
+  const [paymentItems, setPaymentItems] = useState({});
 
   const getBankList = useCallback(async () => {
     const data = await getBank();
@@ -18,9 +24,42 @@ export default function TopUpForm(props) {
 
   useEffect(() => {}, [bankList]);
 
-  console.log("Bank data:", bankList);
+  const onNominalItem = (data) => {
+    setNominalItems(data);
+  };
+
+  const onPaymentItem = (data) => {
+    setPaymentItems(data);
+  };
+
+  const router = useRouter();
+
+  const onsubmit = () => {
+    if (verifyID === "" || nominalItems === {} || paymentItems === {}) {
+      toast.error("Mohon isi semua data dengan benar", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      const data = {
+        verifyID,
+        nominalItems,
+        paymentItems,
+      };
+      localStorage.setItem("data-topup", JSON.stringify(data));
+      console.log("data", data);
+      router.push("/checkout");
+    }
+  };
+
   return (
-    <form action="./checkout.html" method="POST">
+    <div>
       <div className="pt-md-50 pt-30">
         <div className="">
           <label
@@ -36,6 +75,8 @@ export default function TopUpForm(props) {
             name="ID"
             aria-describedby="verifyID"
             placeholder="Enter your ID"
+            value={verifyID}
+            onChange={(event) => setVerifyID(event.target.value)}
           />
         </div>
       </div>
@@ -46,7 +87,6 @@ export default function TopUpForm(props) {
         <div className="row justify-content-between">
           {nominals.map((item) => {
             const coinPrice = parseInt(item.coinPrice, 10);
-            console.log("coinPrice", coinPrice);
             return (
               <ItemCoin
                 key={item.id}
@@ -54,6 +94,7 @@ export default function TopUpForm(props) {
                 totalCoin={item.amountCoin}
                 price={coinPrice}
                 id={item.id}
+                onChange={() => onNominalItem(item)}
               />
             );
           })}
@@ -75,6 +116,7 @@ export default function TopUpForm(props) {
                   namaBank={paymentItem.bankName}
                   namaRek={paymentItem.ownerName}
                   noRek={paymentItem.accountNumber}
+                  onChange={() => onPaymentItem(paymentItem)}
                 />
               );
             })}
@@ -85,14 +127,14 @@ export default function TopUpForm(props) {
       </div>
 
       <div className="d-sm-block d-flex flex-column w-100">
-        <a
-          href="checkout"
-          type="submit"
+        <button
+          onClick={onsubmit}
+          type="button"
           className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
         >
-          Continue
-        </a>
+          Pembayaran
+        </button>
       </div>
-    </form>
+    </div>
   );
 }
