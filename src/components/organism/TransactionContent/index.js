@@ -1,8 +1,81 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ButtonTab from "./ButtonTab";
 import TableRow from "./TableRow";
+import Cookies from "js-cookie";
+import {
+  getLatestTrancation,
+  getOverviewConsole,
+  getOverviewDesktop,
+  getOverviewMobile,
+} from "services/player";
+import { NumericFormat } from "react-number-format";
 
 export default function TransactionContent() {
+  const [transaction, setTransaction] = useState([]);
+  const [mobilePrice, setMobilePrice] = useState([]);
+  const [desktopPrice, setDesktopPrice] = useState([]);
+  const [consolePrice, setConsolePrice] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredData =
+    selectedCategory === "All"
+      ? transaction
+      : transaction.filter(
+          (transaction) => transaction.status === selectedCategory
+        );
+
+  console.log("filteredData", filteredData);
+
+  const total = mobilePrice.price + desktopPrice.price + consolePrice.price;
+
+  //get data total pembelian game item dengan kategori mobile
+  const getMobilePrice = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewMobile(dataToken);
+    setMobilePrice(data);
+  }, []);
+
+  useEffect(() => {
+    getMobilePrice();
+  }, [getMobilePrice]);
+  useEffect(() => {}, [mobilePrice]);
+
+  //get data total pembelian game item dengan kategori Desktop
+  const getDesktopPrice = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewDesktop(dataToken);
+    setDesktopPrice(data);
+  }, []);
+
+  useEffect(() => {
+    getDesktopPrice();
+  }, [getDesktopPrice]);
+  useEffect(() => {}, [desktopPrice]);
+
+  //get data total pembelian game item dengan kategori Console
+  const getConsoleConsole = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewConsole(dataToken);
+    setConsolePrice(data);
+  }, []);
+
+  useEffect(() => {
+    getConsoleConsole();
+  }, [getConsoleConsole]);
+  useEffect(() => {}, [consolePrice]);
+
+  //get transaksi di halaman transaksi
+  const getLatest = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getLatestTrancation(dataToken);
+    setTransaction(data);
+  }, []);
+
+  useEffect(() => {
+    getLatest();
+  }, [getLatest]);
+  useEffect(() => {}, [transaction]);
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -12,16 +85,43 @@ export default function TransactionContent() {
         <div className="mb-30">
           <p className="text-lg color-palette-2 mb-12">You’ve spent</p>
           <h3 className="text-5xl fw-medium color-palette-1">
-            Rp 4.518.000.500
+            <NumericFormat
+              value={total}
+              prefix="Rp. "
+              displayType="text"
+              thousandSeparator="."
+              decimalSeparator=","
+            />
           </h3>
         </div>
         <div className="row mt-30 mb-20">
           <div className="col-lg-12 col-12 main-content">
             <div id="list_status_title">
-              <ButtonTab title="All Trx" active />
-              <ButtonTab title="Pending" active={false} />
-              <ButtonTab title="Success" active={false} />
-              <ButtonTab title="Failed" active={false} />
+              <ButtonTab
+                title="All Trx"
+                active={selectedCategory === "All"}
+                onClick={() => setSelectedCategory("All")}
+              />
+              <ButtonTab
+                title="Pending"
+                active={selectedCategory === "Pending"}
+                onClick={() => setSelectedCategory("Pending")}
+              />
+              <ButtonTab
+                title="Processed"
+                active={selectedCategory === "Processed"}
+                onClick={() => setSelectedCategory("Processed")}
+              />
+              <ButtonTab
+                title="Success"
+                active={selectedCategory === "Success"}
+                onClick={() => setSelectedCategory("Success")}
+              />
+              <ButtonTab
+                title="Failed"
+                active={selectedCategory === "Failed"}
+                onClick={() => setSelectedCategory("Failed")}
+              />
             </div>
           </div>
         </div>
@@ -43,39 +143,19 @@ export default function TransactionContent() {
                 </tr>
               </thead>
               <tbody id="list_status_item">
-                <TableRow
-                  title="Mobile Legends: The New Battle 2021"
-                  category="Mobile"
-                  image="overview-1.png"
-                  item={200}
-                  price={290000}
-                  status="Pending"
-                />
-
-                <TableRow
-                  title="Call of Duty:Modern"
-                  category="Desktop"
-                  image="overview-2.png"
-                  item={200}
-                  price={290000}
-                  status="Pending"
-                />
-                <TableRow
-                  title="Clash of Clans"
-                  category="Mobile"
-                  image="overview-3.png"
-                  item={200}
-                  price={290000}
-                  status="Success"
-                />
-                <TableRow
-                  title="The Royal Game"
-                  category="Mobile"
-                  image="overview-4.png"
-                  item={200}
-                  price={290000}
-                  status="Failed"
-                />
+                {filteredData.map((itemTransaction) => {
+                  return (
+                    <TableRow
+                      key={itemTransaction.id}
+                      image={itemTransaction.game.gamePhotoPath}
+                      title={itemTransaction.game.gameName}
+                      category={itemTransaction.game.category}
+                      item={itemTransaction.item}
+                      price={itemTransaction.price}
+                      status={itemTransaction.status}
+                    />
+                  );
+                })}
               </tbody>
             </table>
           </div>

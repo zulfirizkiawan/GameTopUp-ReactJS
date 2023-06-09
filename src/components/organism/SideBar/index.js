@@ -44,7 +44,7 @@ export default function Sidebar(props) {
             href="/member/edit-profile"
             active={activeMenu === "settings"}
           />
-          <MenuItem title="Log Out" icon="logout" href="/sign-in" />
+          <MenuItem title="Log Out" icon="logout" onClick={onLogout} />
         </div>
         <SidebarFooter />
       </div>

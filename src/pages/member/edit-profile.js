@@ -91,3 +91,29 @@ export default function EditProfile() {
     </>
   );
 }
+
+export async function getServerSideProps({ req }) {
+  const { token, user } = req.cookies;
+
+  let users = null;
+  try {
+    users = JSON.parse(user);
+  } catch (error) {
+    console.error("Error parsing user cookie:", error);
+  }
+
+  if (!token || !users) {
+    return {
+      redirect: {
+        destination: "/sign-in",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: users,
+    },
+  };
+}

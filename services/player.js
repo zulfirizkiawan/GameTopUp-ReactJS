@@ -42,18 +42,15 @@ export async function getBank() {
 
 export async function setCO(data, dataToken) {
   try {
-    const response = await fetch(
-      "https://topupgame.kazuhaproject.com/api/checkouttransaction",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${dataToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`${URL}/api/checkouttransaction`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${dataToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     if (response.ok) {
       const responseData = await response.json();
@@ -66,6 +63,74 @@ export async function setCO(data, dataToken) {
     }
   } catch (error) {
     console.log("error", error);
+    throw error;
+  }
+}
+
+export async function getOverviewMobile(dataToken) {
+  try {
+    const response = await Axios.get(`${URL}/api/dashboard?category=Mobile`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${dataToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resMobile = response.data.data;
+    return resMobile;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOverviewDesktop(dataToken) {
+  try {
+    const response = await Axios.get(`${URL}/api/dashboard?category=Desktop`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${dataToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resMobile = response.data.data;
+    return resMobile;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOverviewConsole(dataToken) {
+  try {
+    const response = await Axios.get(`${URL}/api/dashboard?category=Console`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${dataToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resMobile = response.data.data;
+    return resMobile;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getLatestTrancation(dataToken) {
+  try {
+    const response = await Axios.get(`${URL}/api/transaction`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${dataToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resMobile = response.data.data;
+    return resMobile;
+  } catch (error) {
     throw error;
   }
 }

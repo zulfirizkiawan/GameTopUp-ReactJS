@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import cx from "classnames";
+import { NumericFormat } from "react-number-format";
 
 export default function TableRow(props) {
   const { image, title, category, item, status, price } = props;
@@ -14,9 +15,9 @@ export default function TableRow(props) {
   return (
     <tr data-category="pending" className="align-middle">
       <th scope="row">
-        <Image
-          className="float-start me-3 mb-lg-0 mb-3"
-          src={`/img/${image}`}
+        <img
+          className="img-overview float-start me-3 mb-lg-0 mb-3"
+          src={`${image}`}
           width={80}
           height={60}
           alt=""
@@ -34,7 +35,15 @@ export default function TableRow(props) {
         <p className="fw-medium color-palette-1 m-0">{item} Gold</p>
       </td>
       <td>
-        <p className="fw-medium color-palette-1 m-0">Rp {price}</p>
+        <p className="fw-medium color-palette-1 m-0">
+          <NumericFormat
+            value={price}
+            prefix="Rp. "
+            displayType="text"
+            thousandSeparator="."
+            decimalSeparator=","
+          />
+        </p>
       </td>
       <td>
         <div>

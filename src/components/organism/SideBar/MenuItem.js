@@ -4,14 +4,14 @@ import Link from "next/link";
 import React from "react";
 
 export default function MenuItem(props) {
-  const { title, icon, active, href } = props;
+  const { title, icon, active, href, onClick } = props;
   const classItem = cx({
     item: true,
     "mb-30": true,
     active: active,
   });
   return (
-    <div className={classItem}>
+    <div className={classItem} onClick={onClick}>
       <div className="icon me-3">
         <Image
           src={`/icon/ic-menu-${icon}.svg`}
@@ -21,9 +21,13 @@ export default function MenuItem(props) {
         />
       </div>
       <p className="item-title m-0">
-        <Link href={href} legacyBehavior>
+        {onClick ? (
           <a className="text-lg text-decoration-none">{title}</a>
-        </Link>
+        ) : (
+          <Link href={href} legacyBehavior>
+            <a className="text-lg text-decoration-none">{title}</a>
+          </Link>
+        )}
       </p>
     </div>
   );

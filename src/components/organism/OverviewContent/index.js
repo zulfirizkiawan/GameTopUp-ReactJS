@@ -1,8 +1,68 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Category from "./Category";
 import TableRow from "./TableRow";
+import {
+  getLatestTrancation,
+  getOverviewConsole,
+  getOverviewDesktop,
+  getOverviewMobile,
+} from "services/player";
+import Cookies from "js-cookie";
 
 export default function OverviewContent() {
+  const [mobilePrice, setMobilePrice] = useState([]);
+  const [desktopPrice, setDesktopPrice] = useState([]);
+  const [consolePrice, setConsolePrice] = useState([]);
+  const [latestTransaction, setLatestTransaction] = useState([]);
+
+  //get data total pembelian game item dengan kategori mobile
+  const getMobilePrice = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewMobile(dataToken);
+    setMobilePrice(data);
+  }, []);
+
+  useEffect(() => {
+    getMobilePrice();
+  }, [getMobilePrice]);
+  useEffect(() => {}, [mobilePrice]);
+
+  //get data total pembelian game item dengan kategori Desktop
+  const getDesktopPrice = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewDesktop(dataToken);
+    setDesktopPrice(data);
+  }, []);
+
+  useEffect(() => {
+    getDesktopPrice();
+  }, [getDesktopPrice]);
+  useEffect(() => {}, [desktopPrice]);
+
+  //get data total pembelian game item dengan kategori Console
+  const getConsoleConsole = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getOverviewConsole(dataToken);
+    setConsolePrice(data);
+  }, []);
+
+  useEffect(() => {
+    getConsoleConsole();
+  }, [getConsoleConsole]);
+  useEffect(() => {}, [consolePrice]);
+
+  //get transaksi overview
+  const getLatest = useCallback(async () => {
+    const dataToken = Cookies.get("token");
+    const data = await getLatestTrancation(dataToken);
+    setLatestTransaction(data);
+  }, []);
+
+  useEffect(() => {
+    getLatest();
+  }, [getLatest]);
+  useEffect(() => {}, [latestTransaction]);
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -13,15 +73,15 @@ export default function OverviewContent() {
           </p>
           <div className="main-content">
             <div className="row">
-              <Category icon="ic-game-desktop" nominal={10000}>
+              <Category icon="ic-game-desktop" nominal={desktopPrice.price}>
                 Game <br /> Desktop
               </Category>
-              <Category icon="ic-game-mobile" nominal={10000}>
+              <Category icon="ic-game-mobile" nominal={mobilePrice.price}>
                 Game <br /> Mobile
               </Category>
-              <Category icon="ic-game-other" nominal={10000}>
-                Other
-                <br /> Categories
+              <Category icon="ic-game-other" nominal={consolePrice.price}>
+                Game
+                <br /> Console
               </Category>
             </div>
           </div>
@@ -43,30 +103,19 @@ export default function OverviewContent() {
                 </tr>
               </thead>
               <tbody>
-                <TableRow
-                  images="overview-1.png"
-                  title="Mobile Legends: The New Battle 2021"
-                  category="Mobile"
-                  item="200"
-                  price={200000}
-                  status="Pending"
-                />
-                <TableRow
-                  images="overview-3.png"
-                  title=" Clash of Clans"
-                  category="Mobile"
-                  item="200"
-                  price={200000}
-                  status="Success"
-                />
-                <TableRow
-                  images="overview-2.png"
-                  title=" Call of Duty:Modern"
-                  category="Desktop"
-                  item="200"
-                  price={200000}
-                  status="Failed"
-                />
+                {latestTransaction.map((itemTransaction) => {
+                  return (
+                    <TableRow
+                      key={itemTransaction.id}
+                      images={itemTransaction.game.gamePhotoPath}
+                      title={itemTransaction.game.gameName}
+                      category={itemTransaction.game.category}
+                      item={itemTransaction.item}
+                      price={itemTransaction.price}
+                      status={itemTransaction.status}
+                    />
+                  );
+                })}
               </tbody>
             </table>
           </div>

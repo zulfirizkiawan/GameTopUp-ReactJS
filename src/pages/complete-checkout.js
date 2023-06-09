@@ -26,7 +26,10 @@ export default function CompleteCheckout() {
           </div>
           <div className="button-group d-flex flex-column mx-auto">
             <Link href="/member" legacyBehavior>
-              <a className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16">
+              <a
+                className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
+                role="button"
+              >
                 My Dashboard
               </a>
             </Link>

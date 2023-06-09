@@ -1,8 +1,6 @@
 import CheckOutConfirmation from "@/components/organism/CheckOutConfirmation";
 import CheckOutDetails from "@/components/organism/CheckOutDetails";
 import CheckOutItem from "@/components/organism/CheckOutItem";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
 
 export default function Checkout() {
   return (
@@ -27,11 +25,15 @@ export default function Checkout() {
 
 export async function getServerSideProps({ req }) {
   const { token, user } = req.cookies;
-  console.log("token", token);
 
-  const users = JSON.parse(user);
-  console.log("user", users);
-  if (!token) {
+  let users = null;
+  try {
+    users = JSON.parse(user);
+  } catch (error) {
+    console.error("Error parsing user cookie:", error);
+  }
+
+  if (!token || !users) {
     return {
       redirect: {
         destination: "/sign-in",
@@ -39,6 +41,7 @@ export async function getServerSideProps({ req }) {
       },
     };
   }
+
   return {
     props: {
       user: users,
