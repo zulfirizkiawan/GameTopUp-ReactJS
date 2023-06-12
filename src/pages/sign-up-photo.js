@@ -72,7 +72,7 @@ export default function SignUpPhoto() {
     <>
       <section className="sign-up-photo mx-auto pt-lg-100 pb-lg-100 pt-50 pb-50">
         <div className="container mx-auto">
-          <form action="">
+          <div>
             <div className="form-input d-md-block flex-column">
               <div>
                 <h2 className="text-4xl fw-bold text-center color-palette-1 mb-20">
@@ -123,7 +123,7 @@ export default function SignUpPhoto() {
                 </Link>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </section>
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import Illustration from "./illustration";
+import Illustration from "./Illustration";
 
 export default function MainBanner() {
   return (
