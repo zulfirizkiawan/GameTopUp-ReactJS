@@ -14,14 +14,11 @@ export async function setSignUp(formData) {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("Sign Up success:", data);
       return data;
     } else {
-      console.log("Sign Up failed:", response);
       return response;
     }
   } catch (error) {
-    console.log("Error sign up:", error);
     throw error;
   }
 }

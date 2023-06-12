@@ -5,7 +5,7 @@ import cx from "classnames";
 import { NumericFormat } from "react-number-format";
 
 export default function TableRow(props) {
-  const { image, title, category, item, status, price } = props;
+  const { image, title, category, item, status, price, id } = props;
   const statusClass = cx({
     "float-start icon-status": true,
     pending: status === "Pending",
@@ -54,7 +54,7 @@ export default function TableRow(props) {
         </div>
       </td>
       <td>
-        <Link href="/member/transactions/detail" legacyBehavior>
+        <Link href={`/member/transactions/${id}`} legacyBehavior>
           <a className="btn btn-status rounded-pill text-sm">Details</a>
         </Link>
       </td>

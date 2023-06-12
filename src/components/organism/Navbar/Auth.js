@@ -19,8 +19,6 @@ export default function Auth(props) {
       setIsLogin(true);
       const userString = Cookies.get("user");
       const users = JSON.parse(userString);
-
-      console.log("user", users);
       setUser(users);
     }
   }, []);

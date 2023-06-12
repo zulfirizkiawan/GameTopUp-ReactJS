@@ -21,7 +21,6 @@ export default function CheckOutDetails() {
   const tax = originalPrice * taxPercentage;
   const totalPrice = originalPrice + tax;
 
-  console.log("coba", tax);
   useEffect(() => {
     const dataLocalStorage = localStorage.getItem("data-topup");
     const dataItemStorage = JSON.parse(dataLocalStorage);

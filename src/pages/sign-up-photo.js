@@ -13,7 +13,6 @@ export default function SignUpPhoto() {
   });
 
   const handleFileChange = (event) => {
-    console.log("first foto", event.target.files[0]);
     setImagePreview(URL.createObjectURL(event.target.files[0]));
     return setImage(event.target.files[0]);
   };
@@ -33,11 +32,10 @@ export default function SignUpPhoto() {
   const onSaveImage = async (event) => {
     event.preventDefault();
 
-    console.log("data image", images);
+    // console.log("data image", images);
     const formData = new FormData();
 
     formData.append("image", event.target.files[0]);
-    console.log("data image 2", formData);
 
     // const token = Cookies.get("token");
 

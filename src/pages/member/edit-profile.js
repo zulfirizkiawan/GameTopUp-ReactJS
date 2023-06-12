@@ -1,9 +1,50 @@
 import Input from "@/components/atoms/input";
 import Sidebar from "@/components/organism/SideBar";
+import Cookies from "js-cookie";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { setUpdateProfile } from "services/member";
 
 export default function EditProfile() {
+  const [user, setUser] = useState({
+    profilePhotoPath: "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+  });
+  const dataToken = Cookies.get("token");
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    if (token) {
+      const userString = Cookies.get("user");
+      const users = JSON.parse(userString);
+      setUser(users);
+    }
+  }, []);
+
+  const router = useRouter();
+
+  const onUpdateprofile = async () => {
+    const data = {
+      name: user.name,
+      phoneNumber: user.phoneNumber,
+    };
+
+    const result = await setUpdateProfile(data, dataToken);
+
+    if (result.ok === false) {
+      toast.error("Mohon periksa data update anda");
+    } else {
+      Cookies.remove("token");
+      Cookies.remove("user");
+      router.push("/sign-in");
+      toast.success("Selamat update profile anda berhasil");
+    }
+  };
   return (
     <>
       <section className="edit-profile overflow-auto">
@@ -14,31 +55,25 @@ export default function EditProfile() {
             <div className="bg-card pt-30 ps-30 pe-30 pb-30">
               <form action="">
                 <div className="photo d-flex">
-                  <div className="position-relative me-20">
-                    <Image
-                      src="/img/avatar-1.png"
-                      width={90}
-                      height={90}
-                      className="avatar img-fluid"
-                      alt=""
-                    />
-                    <div className="avatar-overlay position-absolute top-0 d-flex justify-content-center align-items-center">
-                      <Image
-                        src="/icon/ic-trash.svg"
-                        height={24}
-                        width={24}
-                        alt=""
-                      />
-                    </div>
-                  </div>
                   <div className="image-upload">
                     <label htmlFor="avatar">
-                      <Image
-                        src="/icon/upload.svg"
-                        width={90}
-                        height={90}
-                        alt=""
-                      />
+                      {user.profilePhotoPath ===
+                      "https://topupgame.kazuhaproject.com/storage/" ? (
+                        <img
+                          src="/img/avatar-1.png"
+                          width="90"
+                          height="90"
+                          className="avatar img-fluid"
+                        />
+                      ) : (
+                        <img
+                          src={user.profilePhotoPath}
+                          width={90}
+                          height={90}
+                          className="avatar img-fluid"
+                          alt=""
+                        />
+                      )}
                     </label>
                     <input
                       id="avatar"
@@ -49,7 +84,13 @@ export default function EditProfile() {
                   </div>
                 </div>
                 <div className="pt-30">
-                  <Input label="Full Name" />
+                  <Input
+                    label="Full Name"
+                    value={user.name}
+                    onChange={(event) =>
+                      setUser({ ...user, name: event.target.value })
+                    }
+                  />
                 </div>
                 <div className="pt-30">
                   <Input
@@ -61,6 +102,10 @@ export default function EditProfile() {
                     aria-describedby="email"
                     placeholder="Enter your email address"
                     disabled
+                    value={user.email}
+                    onChange={(event) =>
+                      setUser({ ...user, email: event.target.value })
+                    }
                   />
                 </div>
                 <div className="pt-30">
@@ -72,13 +117,17 @@ export default function EditProfile() {
                     name="phone"
                     aria-describedby="phone"
                     placeholder="Enter your phone number"
+                    value={user.phoneNumber}
+                    onChange={(event) =>
+                      setUser({ ...user, phoneNumber: event.target.value })
+                    }
                   />
                 </div>
                 <div className="button-group d-flex flex-column pt-50">
                   <button
-                    type="submit"
                     className="btn btn-save fw-medium text-lg text-white rounded-pill"
-                    role="button"
+                    type="button"
+                    onClick={onUpdateprofile}
                   >
                     Save My Profile
                   </button>

@@ -4,13 +4,14 @@ import Navbar from "@/components/organism/Navbar";
 import TopUpForm from "@/components/organism/TopUpForm";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getDetailFeaturedGame } from "services/player";
+import { getDetailFeaturedGame, getFeaturedGame } from "services/player";
 
 export default function Detail() {
   const { query, isReady } = useRouter();
   const [dataItem, setDataItem] = useState({
     gameName: "",
     category: " ",
+    gamePhotoPath: "",
   });
   const [nominals, setNominals] = useState([]);
 
@@ -19,12 +20,10 @@ export default function Detail() {
     setDataItem(data);
     setNominals(data.nominal);
     localStorage.setItem("data-item", JSON.stringify(data));
-    console.log("data", data);
   }, []);
 
   useEffect(() => {
     if (isReady) {
-      console.log("Router tersedia", query.id);
       getDetailGame(query.id);
     }
   }, [isReady]);

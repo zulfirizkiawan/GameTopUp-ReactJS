@@ -24,8 +24,6 @@ export default function TransactionContent() {
           (transaction) => transaction.status === selectedCategory
         );
 
-  console.log("filteredData", filteredData);
-
   const total = mobilePrice.price + desktopPrice.price + consolePrice.price;
 
   //get data total pembelian game item dengan kategori mobile
@@ -153,6 +151,7 @@ export default function TransactionContent() {
                       item={itemTransaction.item}
                       price={itemTransaction.price}
                       status={itemTransaction.status}
+                      id={itemTransaction.id}
                     />
                   );
                 })}

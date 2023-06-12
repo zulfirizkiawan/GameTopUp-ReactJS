@@ -7,10 +7,8 @@ export async function getFeaturedGame() {
     const response = await Axios.get(`${URL}/api/game`);
 
     const resGame = response.data.data;
-    // console.log("game data:", resGame);
     return resGame;
   } catch (error) {
-    console.log("Error fetching game data:", error);
     throw error;
   }
 }
@@ -22,7 +20,6 @@ export async function getDetailFeaturedGame(id) {
     const resGame = response.data.data;
     return resGame;
   } catch (error) {
-    console.log("Error fetching game data:", error);
     throw error;
   }
 }
@@ -32,10 +29,8 @@ export async function getBank() {
     const response = await Axios.get(`${URL}/api/bank`);
 
     const resBank = response.data.data;
-    // console.log("Bank data:", resBank);
     return resBank;
   } catch (error) {
-    console.log("Error fetching game data:", error);
     throw error;
   }
 }
@@ -54,15 +49,12 @@ export async function setCO(data, dataToken) {
 
     if (response.ok) {
       const responseData = await response.json();
-      // Lakukan sesuatu dengan responseData jika perlu
-      // console.log("responseData", responseData);
       return responseData;
     } else {
       // Tangani respons gagal di sini
       return response;
     }
   } catch (error) {
-    console.log("error", error);
     throw error;
   }
 }
